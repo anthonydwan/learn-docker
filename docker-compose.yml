@@ -1,0 +1,29 @@
+version: '3'
+# each service is its own container
+services:
+  # this is one container: the node app
+  node-app:
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+  
+  # the name is jut for reference
+  mongo:
+    # we can also use built-in image, instead of building one
+    image: mongo
+    # see documentation on docker, the following is needed
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=docker_mongo
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    # make volume to maintain persistent data
+    volumes:
+      # the left of : is the name created for the volume
+      # the right of : is the path (see documentation on docker mongo)
+      # however, the named volume needs to be declared since it can actually be used by other services as well
+      # remember not to use -v tag when tear down container or named volumes will also be deleted
+      - mongo-db:/data/db
+
+volumes:
+  mongo-db:
