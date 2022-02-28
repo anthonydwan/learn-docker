@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const postRouter = require('./routes/postRoutes');
+const userRouter = require('./routes/userRoutes');
 
 const {
   MONGO_IP,
@@ -31,6 +32,8 @@ app.get('/', (req, res) => {
   res.send('<h2>Hi There!</h2>');
 });
 app.use('/api/v1/posts', postRouter);
+app.use('/api/v1/users', userRouter);
+
 
 // if port is set, use it, if not, use 3000
 const port = process.env.PORT || 3000;
