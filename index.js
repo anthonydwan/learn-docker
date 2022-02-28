@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const postRouter = require('./routes/postRoutes');
+
 const {
   MONGO_IP,
   MONGO_PASSWORD,
@@ -24,12 +26,13 @@ const connectWithRetry = () => {
 };
 
 connectWithRetry();
-
-// if port is set, use it, if not, use 3000
-const port = process.env.PORT || 3000;
-
+app.use(express.json());
 app.get('/', (req, res) => {
   res.send('<h2>Hi There!</h2>');
 });
+app.use('/api/v1/posts', postRouter);
+
+// if port is set, use it, if not, use 3000
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`listening on port ${port}`));
