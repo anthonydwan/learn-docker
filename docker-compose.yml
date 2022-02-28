@@ -8,7 +8,11 @@ services:
       - '3000:3000'
     environment:
       - PORT=3000
-  
+    # this means that the node-app service should start after mongo service container
+    # however, this does not check if mongo has finished initializing
+    # thus you want to handle that in the application itself, mongoose will try to connect for 30 seconds
+    depends_on:
+      - mongo
   # the name is jut for reference
   mongo:
     # we can also use built-in image, instead of building one

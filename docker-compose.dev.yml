@@ -1,7 +1,7 @@
 version: '3'
 services:
   node-app:
-    build: 
+    build:
       # location of the dockerfile
       context: .
       # here we set argument NODE_ENV for dockerfile
@@ -13,4 +13,11 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - MONGO_USER=docker_mongo
+      - MONGO_PASSWORD=password
     command: npm run dev
+  mongo:
+    # see documentation on docker, the following is needed
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=docker_mongo
+      - MONGO_INITDB_ROOT_PASSWORD=password

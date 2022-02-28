@@ -1,12 +1,22 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const {
+  MONGO_IP,
+  MONGO_PASSWORD,
+  MONGO_PORT,
+  MONGO_USER,
+} = require('./config/config');
 
 const app = express();
 
 // note to check the password
+const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`;
 mongoose
   // note that mongo is name of the container which we are using to connect
-  .connect('mongodb://docker_mongo:password@mongo:27017/?authSource=admin')
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log('successfully connected to DB'))
   .catch((e) => console.log(e));
 
