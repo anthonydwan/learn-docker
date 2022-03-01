@@ -27,13 +27,15 @@ const connectWithRetry = () => {
 };
 
 connectWithRetry();
+app.enable('trust proxy');
 app.use(express.json());
 app.get('/', (req, res) => {
   res.send('<h2>Hi There!</h2>');
+  console.log('yeah it ran');
 });
+
 app.use('/api/v1/posts', postRouter);
 app.use('/api/v1/users', userRouter);
-
 
 // if port is set, use it, if not, use 3000
 const port = process.env.PORT || 3000;

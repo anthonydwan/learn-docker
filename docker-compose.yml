@@ -1,11 +1,20 @@
 version: '3'
 # each service is its own container
 services:
+  # nginx container
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - '3000:80'
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
   # this is one container: the node app
   node-app:
     build: .
-    ports:
-      - '3000:3000'
+    # with nginx, we no longer need to listen through the port directly (this is now done through nginx)
+    # ports:
+    #   - '3000:3000'
+
     environment:
       - PORT=3000
     # this means that the node-app service should start after mongo service container
@@ -28,6 +37,10 @@ services:
       # however, the named volume needs to be declared since it can actually be used by other services as well
       # remember not to use -v tag when tear down container or named volumes will also be deleted
       - mongo-db:/data/db
+
+  # storage of the the session for authentication
+  # redis:
+  #   image: redis
 
 volumes:
   mongo-db:

@@ -1,5 +1,9 @@
 version: '3'
 services:
+  # load balancer
+  nginx:
+    ports:
+      - "80:80"
   node-app:
     build:
       # location of the dockerfile
